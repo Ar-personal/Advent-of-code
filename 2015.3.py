@@ -2,16 +2,26 @@ housesDict = {}
 
 
 def main():
-    location = (0, 0)
-    housesDict[location] = 0
-    deliverPresent(location)
+    locationSanta = (0, 0)
+    locationRoboSanta = (0, 0)
+    housesDict[locationSanta] = 0
+    deliverPresent(locationSanta)
+    deliverPresent(locationRoboSanta)
+    index = 0
     with open("input files/2015.3.txt") as file:
         for line in file:
             for ch in line:
-                location = moveInDirection(location, ch)
-                checkLocation(location)
-                deliverPresent(location)
+                if (index % 2) == 0:
+                    locationSanta = moveInDirection(locationSanta, ch)
+                    checkLocation(locationSanta)
+                    deliverPresent(locationSanta)
+                else:
+                    locationRoboSanta = moveInDirection(locationRoboSanta, ch)
+                    checkLocation(locationRoboSanta)
+                    deliverPresent(locationRoboSanta)
+                index += 1
     print(countPresents(housesDict, 1))
+
 
 def checkLocation(location):
     if location not in housesDict:
