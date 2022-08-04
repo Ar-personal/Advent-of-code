@@ -1,65 +1,115 @@
 import itertools
+import random
 
-from numpy import vectorize
 
-weapons = []
-armor = []
-rings = []
-
-bhp = 104
+bhp = 50
 bdmg = 8
-barmr = 1
 
 i = 0
-with open("../input files/2015.21.txt") as file:
-    for l in file:
-        s = l.split()
-        s = s[1:]
-        s = list(map(int, s))
-        if i < 5:
-            weapons.append(s)
-        elif i < 10:
-            armor.append(s)
-        elif i >= 10:
-                rings.append(s)
-        i += 1
-    armor.append([0, 0, 0])
-    rings.append([0, 0, 0])
-    rings.append([0, 0, 0])
 
+# "name": "Drain", "mana": 73, "dmg": 2, "heal": 2, "armour": 0, "turns": 0, "clarity": 0
+spells = [
+    [53, 4, 0, 0, 0, 0],
+    [73, 2, 2, 0, 0, 0],
+    [113, 0, 0, 7, 6, 0],
+    [173, 3, 0, 0, 6, 0],
+    [229, 0, 0, 0, 5, 101]
+]
 
-def simulate(php, pdmg, parmr):
-    b = bhp
+manaSpent = 1e100
+spellsUsed = []
+
+def simulate():
+    spellsUsed.clear()
+    bhp = 55
+    php = 50
+    bdmg = 8
+    pmana = 500
+    turn = 0
+    parmr = 0
+    poisonTurns = 0
+    shieldTurns = 0
+    rechargeTurns = 0
+    manaUsed = 0
     while True:
-        b -= max(1, pdmg - barmr)
-        if b <= 0:
-            return True
-        php -= max(1, bdmg - parmr)
+        if turn % 2 == 0:
+            php -= 1
         if php <= 0:
-            return False
+            return manaSpent
+        if poisonTurns > 0:
+            bhp -= 3
+            poisonTurns -= 1
+        if bhp <= 0:
+            return manaUsed
+        if rechargeTurns > 0:
+            pmana += 101
+            rechargeTurns -= 1
+            if pmana < 53:
+                return manaSpent
+        if php <= 0 or pmana < 53:
+            return manaSpent
+        if shieldTurns > 0:
+            shieldTurns -= 1
+        if shieldTurns == 0:
+            parmr = 0
+        if turn % 2 > 0:
+            php -= max(1, bdmg - parmr)
+        if turn % 2 == 0:
+            while True:
+                temp_spells = spells.copy()
+                popped = 0
+                if shieldTurns > 0:
+                    temp_spells.pop(2 - popped)
+                    popped +=1
+                if poisonTurns > 0:
+                    temp_spells.pop(3 - popped)
+                    popped += 1
+                if rechargeTurns > 0:
+                    temp_spells.pop(4 - popped)
+                    popped += 1
+                spell = random.choice(temp_spells)
+                spell_index = spells.index(spell)
+                if spell[0] <= pmana:
+                    break
+            if spell_index == 0:
+               # cast MM
+                bhp -= max(1, spell[1])
+                pmana -= spell[0]
+                manaUsed += spell[0]
+            elif spell_index == 1:
+                # drain
+                bhp -= 2
+                php += 2
+                pmana -= spell[0]
+                manaUsed += spell[0]
+            elif spell_index == 2:
+                # cast shield
+                if shieldTurns == 0:
+                    shieldTurns = spell[4]
+                    parmr = 7
+                    pmana -= spell[0]
+                    manaUsed += spell[0]
+            elif spell_index == 3:
+                #cast Poison
+                if poisonTurns == 0:
+                    poisonTurns = spell[4]
+                    pmana -= spell[0]
+                    manaUsed += spell[0]
+            elif spell_index == 4:
+                #cast rehcarge
+                if rechargeTurns == 0:
+                    rechargeTurns = spell[4]
+                    pmana -= spell[0]
+                    manaUsed += spell[0]
+            spellsUsed.append(spell)
+        turn += 1
+        if bhp <= 0:
+            return manaUsed
 
 
-m = 1e100
-for w in weapons:
-    for a in armor:
-        for r, combo in itertools.combinations(rings, 2):
-            health = 100
-            cost = w[0] + a[0] + r[0] + combo[0]
-            pdmg = w[1] + a[1] + r[1] + combo[1]
-            parmor = w[2] + a[2] + r[2] + combo[2]
-            if simulate(health, pdmg, parmor):
-                m = min(m, cost)
-
-ma = 0
-for w in weapons:
-    for a in armor:
-        for r, combo in itertools.combinations(rings, 2):
-            health = 100
-            cost = w[0] + a[0] + r[0] + combo[0]
-            pdmg = w[1] + a[1] + r[1] + combo[1]
-            parmor = w[2] + a[2] + r[2] + combo[2]
-            if not simulate(health, pdmg, parmor):
-                ma = max(ma, cost)
-
-print(m)
-print(ma)
+while True:
+        mana = min(manaSpent, simulate())
+        if mana < manaSpent:
+            manaSpent = mana
+            print(manaSpent
+                  )
