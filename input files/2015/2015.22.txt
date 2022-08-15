@@ -1,0 +1,4 @@
+MagicMissile 53 4
+Drain 73 2 2
+Shield 113 0 0 6 7
+Poison 173
