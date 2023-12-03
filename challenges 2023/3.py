@@ -92,12 +92,6 @@ def main():
         position[1] += 1
     print(calculate(coords_list, lines, width, height, gear_list))
 
-
-# get coords of every star
-# check the directions for a number, if yes get that numbers coordinate
-# find that coordinate in list of positions, but ensure that others in same chain are ignored
-# check rest of directions, check how many unique chains
-
 def calculate(coords_list, lines, width, height, gear_list):
     total = 0
     for gear_pos in gear_list:
@@ -143,30 +137,6 @@ def prevent_dupe(number_position, adj_numbers):
                     return True
     return False
                 
-
-
-
-    # star_count = 0
-    # for pos in pos_list:
-    #     for direction in directions:
-    #         coord = pos[0]
-    #         print(coord)
-    #         if coord[1] + direction[1] < 0 or coord[1] + direction[1] >= height:
-    #             continue
-    #         if coord[0] + direction[0] < 0 or coord[0] + direction[0] >= width:
-    #             continue
-    #         char = lines[coord[1] + direction[1]][coord[0] + direction[0]]
-    #         if char is '*':
-    #             star_count += 1
-    #             # valid num,ber add all values up
-    #             if star_count == 2:
-
-    #             number = ''
-    #             for value in pos_list:
-    #                 number += str(value[1])
-    #             return int(number)
-    # return 0
-
 
 if __name__ == "__main__":
     main()
