@@ -7,7 +7,7 @@ def main():
     routeList = []
     destinations = set()
     distances = dict()
-    with open("input files/2015.9.txt") as file:
+    with open("../input files/2015/2015.9.txt") as file:
         for line in file:
             (source, _, dest, _, distance) = line.split()
             destinations.add(source)

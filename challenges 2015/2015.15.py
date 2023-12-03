@@ -26,12 +26,9 @@ def find_max_score():
                 c = cookies[0][2] * i + cookies[1][2] * j + cookies[2][2] * k + cookies[3][2] * h
                 d = cookies[0][3] * i + cookies[1][3] * j + cookies[2][3] * k + cookies[3][3] * h
                 e = cookies[0][4] * i + cookies[1][4] * j + cookies[2][4] * k + cookies[3][4] * h
-
                 if not e == 500:
                     continue
-
                 if a <= 0 or b <= 0 or c <= 0 or d <= 0:
-                    score = 0
                     continue
                 score = a * b * c * d
                 if score > max:

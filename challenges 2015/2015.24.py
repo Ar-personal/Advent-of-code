@@ -4,7 +4,7 @@ from functools import reduce
 
 package_weights = []
 
-nums = list(map(int, [line.strip("\n") for line in open('../input files/2015.24.txt')]))
+nums = list(map(int, [line.strip("\n") for line in open('../input files/2015/2015.24.txt')]))
 parts = 4
 total = sum(nums)/parts
 

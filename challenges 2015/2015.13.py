@@ -1,6 +1,6 @@
 import itertools
 
-with open('input files/2015.13.txt') as file:
+with open('../input files/2015/2015.13.txt') as file:
     inputs = file.read().rstrip().split('\n')
 
 people = []
@@ -41,7 +41,6 @@ def calculate_total(order):
 first_person = people.pop(0)
 orders = itertools.permutations(people)
 max_happiness = 0
-
 for order in orders:
     max_happiness = max(max_happiness, calculate_total([first_person] + list(order)))
 

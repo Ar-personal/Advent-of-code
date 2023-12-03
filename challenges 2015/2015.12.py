@@ -1,7 +1,7 @@
 import json
 
 def main():
-    with open('input files/2015.12.JSON') as file:
+    with open('../input files/2015/2015.12.JSON') as file:
         obj = json.loads(file.read())
         print(sumObject(obj))
 
@@ -9,10 +9,8 @@ def main():
 def sumObject(obj):
     if type(obj) is int:
         return obj
-
     if type(obj) is list:
         return sum(map(sumObject, obj))
-
     if type(obj) is dict:
         vals = obj.values()
 

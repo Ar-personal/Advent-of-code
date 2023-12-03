@@ -1,5 +1,6 @@
 instructions = []
 
+
 def perform_instruction(index):
     a = 1
     b = 0

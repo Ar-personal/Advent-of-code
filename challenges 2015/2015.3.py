@@ -8,7 +8,7 @@ def main():
     deliverPresent(locationSanta)
     deliverPresent(locationRoboSanta)
     index = 0
-    with open("input files/2015.3.txt") as file:
+    with open("../input files/2015/2015.3.txt") as file:
         for line in file:
             for ch in line:
                 if (index % 2) == 0:
