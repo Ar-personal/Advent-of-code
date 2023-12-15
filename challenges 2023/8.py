@@ -21,11 +21,12 @@ def main():
     location_dict = {}
     location_dict[0] = list(a_list.keys())
     while True:
-        for paths in list(location_dict.values()):
-            for i, path in enumerate(paths):
-                location_dict[i + 1] = follow_map(i, path, directions)
-        z_list = {k: v for k, v in mapping.items() if k.endswith('Z')}
+        location_dict[i + 1] = []
+        for path in location_dict[i]:
+            location_dict[i + 1].append(follow_map(i, path, directions))
+        z_list = {v for v in list(location_dict.values())[i + 1] if v.endswith('Z')}
         if len(z_list) == len(a_list):
+            print(i + 1)
             quit() 
         i+=1
         
@@ -37,7 +38,6 @@ def follow_map(i, map, directions):
         map = mapping.get(map)[0]
     elif directions[o] == 'R':
         map = mapping.get(map)[1]
-    print(i)
     return map
 
     
